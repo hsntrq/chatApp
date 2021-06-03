@@ -21,6 +21,6 @@ const groupMessageSchema = new Schema({
   parentMsgId: { type: Schema.Types.ObjectId, ref: "Message", default: null },
 });
 
-const GroupMessage = mongoose.model("GroupMessage", messageSchema);
+const GroupMessage = mongoose.model("GroupMessage", groupMessageSchema);
 
 module.exports = GroupMessage;
