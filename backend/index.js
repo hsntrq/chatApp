@@ -8,7 +8,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
+const uri = "mongodb://localhost:27017/chatapp";
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
