@@ -22,6 +22,7 @@ const userSchema = new Schema(
     dateOfBirth: Date,
     address: String,
     description: String,
+    status: String,
   },
   {
     timestamps: true,

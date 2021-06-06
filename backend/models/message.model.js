@@ -14,7 +14,6 @@ const messageSchema = new Schema({
     ref: "User",
     required: true,
   },
-  subject: { type: String, default: null },
   sendTime: { type: Date, required: true, default: new Date().getTime() },
   receivedTime: { type: Date, default: null },
   messageText: { type: String, required: true },

@@ -31,6 +31,7 @@ router.put("/update/:id", (req, res) => {
     dateOfBirth: req.body.dateOfBirth,
     address: req.body.address,
     description: req.body.description,
+    status: req.body.status,
   };
   User.findByIdAndUpdate(req.params.id, { $set: updatedRecord }, (err, doc) => {
     if (!err) res.json("User UPDATED.");
@@ -53,6 +54,7 @@ router.route("/register").post((req, res) => {
     password: password,
     email: email,
     gender: gender,
+    status: "Online",
   });
 
   newUser
