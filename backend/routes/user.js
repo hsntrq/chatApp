@@ -2,7 +2,18 @@ const router = require("express").Router();
 let User = require("../models/user.model");
 
 router.route("/").get((req, res) => {
-  User.find()
+  let query = req.query.q;
+
+  if (!query) query = ".*";
+
+  User.find({
+    $or: [
+      { userName: { $regex: query, $options: "i" } },
+      { firstName: { $regex: query, $options: "i" } },
+      { lastName: { $regex: query, $options: "i" } },
+      { email: { $regex: query + ".*(?=@)", $options: "i" } },
+    ],
+  })
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -13,7 +24,13 @@ router.route("/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").delete((req, res) => {
+router.route("/status/:id").get((req, res) => {
+  User.findById(req.params.id)
+    .then((user) => res.json(user.status))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/delete/:id").delete((req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then(() => res.json("User deleted."))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -31,7 +48,6 @@ router.put("/update/:id", (req, res) => {
     dateOfBirth: req.body.dateOfBirth,
     address: req.body.address,
     description: req.body.description,
-    status: req.body.status,
   };
   User.findByIdAndUpdate(req.params.id, { $set: updatedRecord }, (err, doc) => {
     if (!err) res.json("User UPDATED.");
@@ -54,7 +70,6 @@ router.route("/register").post((req, res) => {
     password: password,
     email: email,
     gender: gender,
-    status: "Online",
   });
 
   newUser
