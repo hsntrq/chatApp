@@ -21,9 +21,11 @@ connection.once("open", () => {
 
 const usersRouter = require("./routes/user");
 const messageRouter = require("./routes/message");
+const friendsRouter = require("./routes/friends");
 
 app.use("/api/user", usersRouter);
 app.use("/api/message", messageRouter);
+app.use("/api/connections", friendsRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
