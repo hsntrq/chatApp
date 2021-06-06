@@ -3,20 +3,24 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 require("./user.model");
 
-const friendsSchema = new Schema({
-  user1: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const friendsSchema = new Schema(
+  {
+    user1: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    user2: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    status: { type: Boolean, default: false },
   },
-  user2: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  status: { type: String, default: "Under Process" },
-  dateOfApproval: { type: Date, default: new Date().getTime() },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Friends = mongoose.model("Friends", friendsSchema);
 

@@ -22,7 +22,7 @@ const userSchema = new Schema(
     dateOfBirth: Date,
     address: String,
     description: String,
-    status: String,
+    status: { type: String, default: "Online" },
   },
   {
     timestamps: true,
