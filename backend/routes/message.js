@@ -32,7 +32,7 @@ router.route("/:id").delete((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.put("/update/:id", (req, res) => {
+router.put("/edit/:id", (req, res) => {
   var updatedRecord = {
     sendTime: new Date().getTime(),
     messageText: req.body.messageText,
