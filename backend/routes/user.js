@@ -42,22 +42,26 @@ router.route("/").get((req, res) => {
 //         gender: gender,
 //     });
 
-//     newUser
-//         .save()
-//         .then(() => res.json("User  [" + em + "] added!"))
-//         .catch((err) => res.status(400).json("Error: " + err));
+// newUser
+//     .save()
+//     .then(() => res.json("User  [" + userName + "] added!"))
+//     .catch((err) => res.status(400).json("Error: " + err));
 // });
 
 router.route("/login").post((req, res) => {
-    const { email, password } = req.body;
-    const user = User.findOne({
-        email,
-        password: sha256(password + process.env.SALT),
-    });
-
-    if (!user) throw "Email and Password Incorrect";
-    const token = jwt.sign({ id: user.id }, process.env.SECRET);
-    res.json("User [" + email + "] logged in successfully");
+    const { email, password, firstName } = req.body;
+    // Error Handling
+    User.findOne({
+            email,
+            password: sha256(password + process.env.SALT),
+        })
+        .then((user) => {
+            const token = jwt.sign({ id: user.id }, process.env.SECRET);
+            res.json("User [" + email + "] logged in successfully");
+        })
+        .catch((err) =>
+            res.status(400).json(" Email and Password Incorrect Error: " + err)
+        );
 });
 
 router.route("/:id").get((req, res) => {
