@@ -6,12 +6,12 @@ require("./group.model");
 
 const userGroupSchema = new Schema(
   {
-    groupId: {
+    groupID: {
       type: Schema.Types.ObjectId,
       ref: "Group",
       required: true,
     },
-    userId: {
+    userID: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
