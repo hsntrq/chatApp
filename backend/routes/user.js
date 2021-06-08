@@ -1,5 +1,7 @@
 const router = require("express").Router();
 let User = require("../models/user.model");
+const sha256 = require("js-sha256");
+const jwt = require("jwt-then");
 
 router.route("/").get((req, res) => {
   let query = req.query.q;
@@ -16,6 +18,41 @@ router.route("/").get((req, res) => {
   })
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/register").post((req, res) => {
+  const userName = req.body.userName;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const password = req.body.password;
+  const email = req.body.email;
+  const gender = req.body.gender;
+
+  const newUser = new User({
+    userName: userName,
+    firstName: firstName,
+    lastName: lastName,
+    password: sha256(password + process.env.SALT),
+    email: email,
+    gender: gender,
+  });
+
+  newUser
+    .save()
+    .then(() => res.json("User  [" + em + "] added!"))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/login").post((req, res) => {
+  const { email, password } = req.body;
+  const user = User.findOne({
+    email: email,
+    password: sha256(password + process.env.SALT),
+  });
+
+  if (!user) throw "Email and Password Incorrect";
+  const token = jwt.sign({ id: user.id }, process.env.SECRET);
+  res.json("User [" + email + "] logged in successfully");
 });
 
 router.route("/:id").get((req, res) => {
@@ -53,29 +90,6 @@ router.put("/update/:id", (req, res) => {
     if (!err) res.json("User UPDATED.");
     else res.status(400).json("Error: " + err);
   });
-});
-
-router.route("/register").post((req, res) => {
-  const userName = req.body.userName;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const password = req.body.password;
-  const email = req.body.email;
-  const gender = req.body.gender;
-
-  const newUser = new User({
-    userName: userName,
-    firstName: firstName,
-    lastName: lastName,
-    password: password,
-    email: email,
-    gender: gender,
-  });
-
-  newUser
-    .save()
-    .then(() => res.json("User added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
 });
 
 module.exports = router;
