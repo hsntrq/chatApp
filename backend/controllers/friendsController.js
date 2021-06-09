@@ -26,9 +26,10 @@ exports.requestsSent = async (req, res) => {
 
 exports.sendRequest = (req, res) => {
   const newConnection = new Friends({
-    user1: req.body.userid1,
-    user2: req.body.userid2,
+    user1: req.body.user1,
+    user2: req.body.user2,
   });
+  console.log(newConnection.user1 + " " + newConnection.user2);
   newConnection
     .save()
     .then(() => res.json("request sent!"))
