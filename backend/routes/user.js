@@ -14,5 +14,4 @@ router.get("/status/:id", catchErrors(usercontroller.checkUserStatus));
 router.delete("/delete/:id", catchErrors(usercontroller.deleteUser));
 router.put("/update/:id", catchErrors(usercontroller.updateUser));
 
-
 module.exports = router;
