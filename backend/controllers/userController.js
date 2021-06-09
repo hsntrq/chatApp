@@ -40,13 +40,13 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { userName, password } = req.body;
   const user = await User.findOne({
-    email,
+    userName,
     password: sha256(password + process.env.SALT),
   });
 
-  if (!user) throw "incorrect email and password entered";
+  if (!user) throw "incorrect username and password entered";
 
   const token = await jwt.sign({ id: user.id }, process.env.SECRET);
 
