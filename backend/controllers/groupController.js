@@ -7,7 +7,12 @@ exports.getGroups = async (req, res) => {
 };
 
 exports.createGroup = async (req, res) => {
-  const newGroup = new Group({ name: req.body.name });
+  const name = req.body.name;
+  if (!name) throw "Name is required";
+  const groupExist = await Group.findOne({ name });
+  if (groupExist) throw "Group with this name already exists";
+  const newGroup = new Group({ name: name });
+
   newGroup
     .save()
     .then(() => res.json(" " + newGroup.name + " group created!"))
