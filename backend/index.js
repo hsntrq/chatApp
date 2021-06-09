@@ -23,8 +23,10 @@ const messageRouter = require("./routes/message");
 const friendsRouter = require("./routes/friends");
 const groupsRouter = require("./routes/group");
 const groupMessageRouter = require("./routes/groupMessage");
+const userGroupsRouter = require("./routes/userGroup");
 
 app.use("/api/users", usersRouter);
+app.use("/api/user-groups", userGroupsRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/connections", friendsRouter);
 app.use("/api/groups", groupsRouter);
