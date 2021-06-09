@@ -24,7 +24,7 @@ exports.requestsSent = async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.sendRequest = (req, res) => {
+exports.sendRequest = async (req, res) => {
   const newConnection = new Friends({
     user1: req.body.user1,
     user2: req.body.user2,
