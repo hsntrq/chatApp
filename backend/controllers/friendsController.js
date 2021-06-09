@@ -29,7 +29,7 @@ exports.sendRequest = (req, res) => {
     user1: req.body.userid1,
     user2: req.body.userid2,
   });
-  await newConnection
+  newConnection
     .save()
     .then(() => res.json("request sent!"))
     .catch((err) => res.status(400).json("Error: " + err));

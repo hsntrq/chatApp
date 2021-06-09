@@ -16,4 +16,4 @@ router.post("/request", catchErrors(friendsController.sendRequest));
 router.put("/accept/:id", catchErrors(friendsController.acceptRequest));
 router.delete("/delete/:id", catchErrors(friendsController.deleteFriend));
 
-export default router;
+module.exports = router;

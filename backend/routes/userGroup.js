@@ -7,4 +7,5 @@ router.get("/:userid", catchErrors(userGroupController.memberOf));
 router.get("/admin/:userid", catchErrors(userGroupController.isAdminOf));
 router.post("/join", catchErrors(userGroupController.joinGroup));
 router.delete("/exit/:id", catchErrors(userGroupController.exitGroup));
-export default router;
+
+module.exports = router;

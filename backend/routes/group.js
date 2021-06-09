@@ -10,4 +10,4 @@ router.delete("/delete/:id", catchErrors(groupController.deleteGroup));
 router.get("/status/:id", catchErrors(groupController.status));
 router.put("/update/:id", catchErrors(groupController.updateGroup));
 
-export default router;
+module.exports = router;

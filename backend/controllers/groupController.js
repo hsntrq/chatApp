@@ -1,4 +1,4 @@
-const mongoose = require("moongoose");
+const mongoose = require("mongoose");
 const Group = require("../models/group.model");
 
 exports.getGroups = async (req, res) => {
@@ -9,7 +9,7 @@ exports.getGroups = async (req, res) => {
 
 exports.createGroup = async (req, res) => {
   const newGroup = new Group({ name: req.body.name });
-  await newGroup
+  newGroup
     .save()
     .then(() => res.json(" " + newGroup.name + " group created!"))
     .catch((err) => res.status(400).json("Error: " + err));
