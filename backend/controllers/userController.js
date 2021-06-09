@@ -41,8 +41,9 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { userName, password, email } = req.body;
-  const user = User.findOne({
-    $or: [userName, email],
+  console.log(userName + " " + password + " " + email);
+  const user = await User.findOne({
+    $or: [{ email: email }, { userName: userName }],
     password: sha256(password + process.env.SALT),
   });
 
