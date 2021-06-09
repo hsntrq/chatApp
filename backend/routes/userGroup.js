@@ -1,5 +1,4 @@
 const router = require("express").Router();
-let UserGroup = require("../models/userGroup.model");
 
 const { catchErrors } = require("../handlers/errorHandlers");
 const userGroupController = require("../controllers/userGroupController");

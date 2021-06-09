@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const router = require("express").Router();
 let UserGroup = require("../models/userGroup.model");
 
 exports.getAll = async (req, res) => {

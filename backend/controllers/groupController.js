@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Group = require("../models/group.model");
 
 exports.getGroups = async (req, res) => {

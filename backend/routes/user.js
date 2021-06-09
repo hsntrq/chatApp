@@ -1,8 +1,4 @@
 const router = require("express").Router();
-let User = require("../models/user.model");
-const sha256 = require("js-sha256");
-const jwt = require("jwt-then");
-
 
 const { catchErrors } = require("../handlers/errorHandlers");
 const usercontroller = require("../controllers/userController");

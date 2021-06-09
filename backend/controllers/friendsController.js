@@ -1,4 +1,3 @@
-const router = require("express").Router();
 let Friends = require("../models/friends.model");
 
 exports.getFriends = async (req, res) => {

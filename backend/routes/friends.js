@@ -1,5 +1,4 @@
 const router = require("express").Router();
-let Friends = require("../models/friends.model");
 
 const { catchErrors } = require("../handlers/errorHandlers");
 const friendsController = require("../controllers/friendsController");
