@@ -1,5 +1,12 @@
+const mongoose = require("mongoose");
 const router = require("express").Router();
 let UserGroup = require("../models/userGroup.model");
+
+exports.getAll = async (req, res) => {
+  UserGroup.find()
+    .then((userGroups) => res.json(userGroups))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
 
 // get all groups in which user is a member(may aswell be an admin)
 exports.memberOf = async (req, res) => {
@@ -21,8 +28,10 @@ exports.joinGroup = async (req, res) => {
   const newConnection = new UserGroup({
     userID: req.body.userID,
     groupID: req.body.groupID,
+    isAdmin: req.body.isAdmin,
   });
-  await newConnection
+  console.log(newConnection.userID);
+  newConnection
     .save()
     .then(() => res.json("User has joined the group!"))
     .catch((err) => res.status(400).json("Error: " + err));
