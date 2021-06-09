@@ -40,9 +40,9 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { userName, password } = req.body;
-  const user = await User.findOne({
-    userName,
+  const { userName, password, email } = req.body;
+  const user = User.findOne({
+    $or: [userName, email],
     password: sha256(password + process.env.SALT),
   });
 
