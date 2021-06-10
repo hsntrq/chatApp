@@ -43,6 +43,8 @@ exports.sendRequest = async (req, res) => {
 };
 
 exports.acceptRequest = async (req, res) => {
+  if (!(await Friends.findById(req.params.id)))
+    res.status(404).json("Error: Request does not exist anymore");
   await Friends.findByIdAndUpdate(
     req.params.id,
     { $set: { status: true } },
@@ -54,6 +56,12 @@ exports.acceptRequest = async (req, res) => {
 };
 
 exports.deleteFriend = async (req, res) => {
+  if (!(await Friends.findById(req.params.id)))
+    res
+      .status(404)
+      .json(
+        "Error: Request does not exist anymore. It has laready been deleted"
+      );
   await Friends.findByIdAndDelete(req.params.id)
     .then(() => res.json("Connection deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
