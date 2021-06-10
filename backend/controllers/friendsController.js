@@ -12,14 +12,14 @@ exports.getFriends = async (req, res) => {
 exports.requestsReceived = async (req, res) => {
   await Friends.find({ user2: req.params.userid })
     .find({ status: false })
-    .then((connection) => res.json(connection))
+    .then((connection) => res.status(200).json(connection))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 exports.requestsSent = async (req, res) => {
   await Friends.find({ user1: req.params.userid })
     .find({ status: false })
-    .then((connection) => res.json(connection))
+    .then((connection) => res.status(200).json(connection))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
@@ -38,7 +38,7 @@ exports.sendRequest = async (req, res) => {
   console.log(newConnection.user1 + " " + newConnection.user2);
   newConnection
     .save()
-    .then(() => res.json("request sent!"))
+    .then(() => res.status(201).json("request sent!"))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
@@ -49,7 +49,7 @@ exports.acceptRequest = async (req, res) => {
     req.params.id,
     { $set: { status: true } },
     (err, doc) => {
-      if (!err) res.json("Request Accepted!");
+      if (!err) res.status(200).json("Request Accepted!");
       else res.status(400).json("Error: " + err);
     }
   );
