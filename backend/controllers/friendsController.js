@@ -1,7 +1,7 @@
 let Friends = require("../models/friends.model");
 
 exports.getFriends = async (req, res) => {
-  Friends.find({
+  await Friends.find({
     $or: [{ user1: req.params.userid }, { user2: req.params.userid }],
   })
     .find({ status: true })
@@ -10,14 +10,14 @@ exports.getFriends = async (req, res) => {
 };
 
 exports.requestsReceived = async (req, res) => {
-  Friends.find({ user2: req.params.userid })
+  await Friends.find({ user2: req.params.userid })
     .find({ status: false })
     .then((connection) => res.json(connection))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 exports.requestsSent = async (req, res) => {
-  Friends.find({ user1: req.params.userid })
+  await Friends.find({ user1: req.params.userid })
     .find({ status: false })
     .then((connection) => res.json(connection))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -36,7 +36,7 @@ exports.sendRequest = async (req, res) => {
 };
 
 exports.acceptRequest = async (req, res) => {
-  Friends.findByIdAndUpdate(
+  await Friends.findByIdAndUpdate(
     req.params.id,
     { $set: { status: true } },
     (err, doc) => {
@@ -47,7 +47,7 @@ exports.acceptRequest = async (req, res) => {
 };
 
 exports.deleteFriend = async (req, res) => {
-  Friends.findByIdAndDelete(req.params.id)
+  await Friends.findByIdAndDelete(req.params.id)
     .then(() => res.json("Connection deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 };
