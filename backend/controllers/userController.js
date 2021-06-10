@@ -109,6 +109,6 @@ exports.updateUser = async (req, res) => {
   };
   User.findByIdAndUpdate(req.params.id, { $set: updatedRecord }, (err, doc) => {
     if (!err) res.json("User UPDATED.");
-    else res.status(400).json("Error: " + err);
+    else res.status(404).json("Error: " + err);
   });
 };

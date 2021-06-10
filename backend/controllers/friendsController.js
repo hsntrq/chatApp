@@ -24,6 +24,13 @@ exports.requestsSent = async (req, res) => {
 };
 
 exports.sendRequest = async (req, res) => {
+  const isFriend = await friends.find(
+    $or[
+      ({ user1: req.body.user1, user2: req.body.user1 },
+      { user1: req.body.user2, user2: req.body.user2 })
+    ]
+  );
+  if (isFriend) throw "Already Friends";
   const newConnection = new Friends({
     user1: req.body.user1,
     user2: req.body.user2,
