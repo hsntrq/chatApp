@@ -1,51 +1,21 @@
 const router = require("express").Router();
-let Friends = require("../models/friends.model");
 
-router.route("/:userid").get((req, res) => {
-  Friends.find({
-    $or: [{ user1: req.params.userid }, { user2: req.params.userid }],
-  })
-    .find({ status: true })
-    .then((connection) => res.json(connection))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
-router.route("/requests/received/:userid").get((req, res) => {
-  Friends.find({ user2: req.params.userid })
-    .find({ status: false })
-    .then((connection) => res.json(connection))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
-router.route("/requests/sent/:userid").get((req, res) => {
-    Friends.find({ user1: req.params.userid })
-      .find({ status: false })
-      .then((connection) => res.json(connection))
-      .catch((err) => res.status(400).json("Error: " + err));
-  });
-
-router.route("/request/").post((req, res) => {
-  const newConnection = new Friends({
-    user1: req.body.userid1,
-    user2: req.body.userid2,
-  });
-  newConnection
-    .save()
-    .then(() => res.json("request sent!"))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
-router.route("/accept/:id").put((req, res) => {
-    Friends.findByIdAndUpdate(req.params.id, { $set: {status: true} }, (err, doc) => {
-        if (!err) res.json("Request Accepted!");
-        else res.status(400).json("Error: " + err);
-      });
-  });
-
-router.route("/delete/:id").delete((req, res) => {
-  Friends.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Connection deleted!"))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
+const { catchErrors } = require("../handlers/errorHandlers");
+const friendsController = require("../controllers/friendsController");
+router.get("/:userid", catchErrors(friendsController.getFriends));
+router.get(
+  "/received/:userid",
+  catchErrors(friendsController.requestsReceived)
+);
+router.get("/sent/:userid", catchErrors(friendsController.requestsSent));
+router.post("/request", catchErrors(friendsController.sendRequest));
+router.put("/accept/:id", catchErrors(friendsController.acceptRequest));
+router.delete("/delete/:id", catchErrors(friendsController.deleteFriend));
 
 module.exports = router;
+// 200 okay
+// 201 create (post req)
+// 404 user doesnt exist not found
+// 400 Bad request create user twice delete
+// corner cases
+// consistency
