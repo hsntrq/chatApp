@@ -1,12 +1,15 @@
 const router = require("express").Router();
-let GroupMessage = require("../models/groupMessage.model");
-
+const auth = require("../middlewares/auth");
 const { catchErrors } = require("../handlers/errorHandlers");
 const groupmessagecontroller = require("../controllers/groupmessageController");
-router.get("/", catchErrors(groupmessagecontroller.getAllMessages))
-router.post("/add", catchErrors(groupmessagecontroller.addMessage))
-router.delete("/:id", catchErrors(groupmessagecontroller.deleteMessage))
-router.put("/edit/:id", catchErrors(groupmessagecontroller.updateMessage))
+router.get("/", catchErrors(groupmessagecontroller.getAllMessages));
+router.post("/add", auth, catchErrors(groupmessagecontroller.addMessage));
+router.delete("/:id", auth, catchErrors(groupmessagecontroller.deleteMessage));
+router.put(
+  "/edit/:id",
+  auth,
+  catchErrors(groupmessagecontroller.updateMessage)
+);
 
 // router.route("/").get((req, res) => {
 //     GroupMessage.find()
@@ -47,6 +50,5 @@ router.put("/edit/:id", catchErrors(groupmessagecontroller.updateMessage))
 //         }
 //     );
 // });
-
 
 module.exports = router;
