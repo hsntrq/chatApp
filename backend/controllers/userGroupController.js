@@ -32,7 +32,7 @@ exports.joinGroup = async (req, res) => {
   const userExists = await User.findById(userID);
   if (!groupExists)
     res.status(404).json("Error:Group does not exist in the database");
-  if (!userExist)
+  if (!userExists)
     res.status(404).json("Error:User does not exist in the database");
 
   const userGroupExists = await UserGroup.findOne(
@@ -40,6 +40,7 @@ exports.joinGroup = async (req, res) => {
     { groupID: groupID }
   );
   if (userGroupExists)
+    // throw "user already in this group";
     res.status(400).json("Error:User is already in this Group");
 
   const newConnection = new UserGroup({
