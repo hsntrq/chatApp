@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const io = require("socket.io");
+
 
 require("dotenv").config();
 const app = express();
@@ -9,13 +11,13 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.DATABASE, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
 });
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("MongoDB database connection established successfully");
+    console.log("MongoDB database connection established successfully");
 });
 
 const usersRouter = require("./routes/user");
@@ -24,6 +26,7 @@ const friendsRouter = require("./routes/friends");
 const groupsRouter = require("./routes/group");
 const groupMessageRouter = require("./routes/groupMessage");
 const userGroupsRouter = require("./routes/userGroup");
+const { Socket } = require("socket.io");
 
 app.use("/api/users", usersRouter);
 app.use("/api/user-groups", userGroupsRouter);
@@ -33,5 +36,5 @@ app.use("/api/groups", groupsRouter);
 app.use("/api/group-messages", groupMessageRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+    console.log(`Server is running on port: ${port}`);
 });
