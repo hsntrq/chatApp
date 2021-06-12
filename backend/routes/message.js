@@ -1,12 +1,16 @@
 const router = require("express").Router();
 const auth = require("../middlewares/auth");
-
 const { catchErrors } = require("../handlers/errorHandlers");
-const messagecontroller = require("../controllers/messageController");
+const {
+  getAllMessages,
+  addMessage,
+  deleteMessage,
+  updateMessage,
+} = require("../controllers/messageController");
 
-router.get("/", auth, catchErrors(messagecontroller.getAllMessages));
-router.post("/add", auth, catchErrors(messagecontroller.addMessage));
-router.delete("/:id", auth, catchErrors(messagecontroller.deleteMessage));
-router.put("/edit/:id", auth, catchErrors(messagecontroller.updateMessage));
+router.get("/", auth, catchErrors(getAllMessages));
+router.post("/add", auth, catchErrors(addMessage));
+router.delete("/:id", auth, catchErrors(deleteMessage));
+router.put("/edit/:id", auth, catchErrors(updateMessage));
 
 module.exports = router;
