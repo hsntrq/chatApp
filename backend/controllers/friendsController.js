@@ -2,7 +2,7 @@ let Friends = require("../models/friends.model");
 let Message = require("../models/message.model");
 
 exports.getFriends = async (req, res) => {
-  await Friends.find({
+  Friends.find({
     $or: [{ user1: req.params.userid }, { user2: req.params.userid }],
   })
     .find({ status: true })
@@ -11,11 +11,11 @@ exports.getFriends = async (req, res) => {
 };
 exports.getConversationFriends = async (req, res) => {
   const chatFriends = [];
-  await Friends.find({
+  Friends.find({
     $or: [{ user1: req.params.userid }, { user2: req.params.userid }],
   })
     .find({ status: true })
-    .then(
+    .then((chatfriends) =>
       chatfriends.forEach((chatfriend) => {
         let friendsMsgs = Message.find({
           $or: [
@@ -45,7 +45,7 @@ exports.getConversationFriends = async (req, res) => {
 };
 
 exports.requestsReceived = async (req, res) => {
-  await Friends.find({ user2: req.params.userid })
+  Friends.find({ user2: req.params.userid })
     .find({ status: false })
     .then((connection) => res.status(200).json(connection))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -59,7 +59,7 @@ exports.requestsSent = async (req, res) => {
 };
 
 exports.sendRequest = async (req, res) => {
-  const isFriend = await Friends.findOne({
+  const isFriend = Friends.findOne({
     $or: [
       ({ user1: req.body.user1, user2: req.body.user2 },
       { user1: req.body.user2, user2: req.body.user1 }),
