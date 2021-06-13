@@ -1,33 +1,25 @@
-import React from "react";
+import { useContext, useRef, React } from "react";
 import axios from "axios";
+import { loginCall } from "./apicalls";
 import makeToast from "./Toaster";
+import { AuthContext } from "./components/AuthContext";
 
-const Login = (props) => {
-  const usernameRef = React.createRef();
-  const passwordRef = React.createRef();
-
+export default function Login() {
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+  const { isFetching, dispatch } = useContext(AuthContext);
   const loginUser = (e) => {
     e.preventDefault();
-    const userName = usernameRef.current.value;
-    const email = usernameRef.current.value;
-    const password = passwordRef.current.value;
-
-    axios
-      .post("http://localhost:8000/api/users/login", {
-        userName,
-        email,
-        password,
-      })
-      .then((response) => {
-          console.log(response.data)
-        makeToast("success", response.data.message);
-        localStorage.setItem("CC_Token", response.data.token);
-        props.history.push("/chat");
-      })
-      .catch((err) => {
-        makeToast("error", err.response.data.message);
-      });
+    loginCall(
+      {
+        email: usernameRef.current.value,
+        userName: "",
+        password: passwordRef.current.value,
+      },
+      dispatch
+    );
   };
+  
   return (
     <div>
       <section id="portfolio" className="portfolio">
@@ -78,6 +70,7 @@ const Login = (props) => {
                           color: "rgb(255,255,255)",
                           backgroundColor: "#00b5a8",
                         }}
+                        disabled={isFetching}
                       >
                         LogIn
                       </button>
@@ -95,5 +88,3 @@ const Login = (props) => {
     </div>
   );
 };
-
-export default Login;

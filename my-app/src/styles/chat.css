@@ -1,0 +1,182 @@
+.messenger {
+  height: calc(100vh - 70px);
+  display: flex;
+}
+
+.chatMenu {
+  flex: 3.5;
+  background-color: #32465a;
+}
+
+.chatMenuInput {
+  background-color: #32465a;
+  font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+  padding: 10px 0 10px 46px;
+  width: calc(100% - 25px);
+  border: none;
+  background: #32465a;
+  color: #f5f5f5;
+}
+label {
+  position: absolute;
+  margin: 10px 0 0 20px;
+}
+::placeholder {
+  color: white;
+}
+::-webkit-input-placeholder {
+  color: #f5f5f5;
+}
+::-moz-placeholder {
+  color: #f5f5f5;
+}
+
+.chatBox {
+  flex: 5.5;
+  background-color: white;
+}
+
+.chatBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.chatBoxTop {
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 10px;
+}
+
+.chatBoxBottom {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chatMessageInput {
+  border-radius: 10px;
+  height: 35px;
+  font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+  padding: 10px 0 10px 15px;
+  width: calc(100% - 25px);
+  border: none;
+  background: whitesmoke;
+  color: black;
+}
+::placeholder {
+  color: black;
+}
+.contact-profile {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background: #f5f5f5;
+}
+.contact-profile img {
+  width: 40px;
+  border-radius: 50%;
+  float: left;
+  margin: 9px 12px 0 9px;
+}
+.contact-profile p {
+  float: left;
+}
+.contact-profile .social-media {
+  float: right;
+}
+.contact-profile .social-media i {
+  margin-left: 14px;
+  cursor: pointer;
+}
+.contact-profile .social-media i:nth-last-child(1) {
+  margin-right: 20px;
+}
+.contact-profile .social-media i:hover {
+  color: #435f7a;
+}
+.attachment {
+  position: absolute;
+  right: 60px;
+  z-index: 4;
+  margin-top: 10px;
+  font-size: 1.1em;
+  color: #435f7a;
+  opacity: 0.5;
+  cursor: pointer;
+}
+@media screen and (max-width: 735px) {
+  .attachment {
+    margin-top: 17px;
+    right: 65px;
+  }
+}
+.attachment:hover {
+  opacity: 1;
+}
+.submit {
+  float: left;
+  border: none;
+  width: 10%;
+  padding: 10px 0;
+  background: #32465a;
+  color: #f5f5f5;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+}
+
+.chatSubmitButton {
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: teal;
+  color: white;
+}
+
+.chatOnline {
+  flex: 3;
+}
+
+.chatMenuWrapper {
+  flex-direction: column;
+}
+.chatMenuTop {
+  height: 100%;
+  overflow-y: scroll;
+}
+.chatBoxWrapper,
+.chatOnlineWrapper {
+  padding: 10px;
+  height: 100%;
+}
+
+.noConversationText {
+  position: absolute;
+  top: 10%;
+  font-size: 50px;
+  color: rgb(224, 220, 220);
+  cursor: default;
+}
+
+@media screen and (max-width: 768px) {
+  .chatMenu {
+    flex: 10;
+  }
+
+  .chatMenuInput {
+    display: none;
+  }
+
+  .chatBox {
+    flex: 10;
+  }
+
+  .chatOnline {
+    flex: 1px;
+  }
+}
