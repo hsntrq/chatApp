@@ -11,34 +11,38 @@ exports.getFriends = async (req, res) => {
 };
 exports.getConversationFriends = async (req, res) => {
   const chatFriends = [];
-  Friends.find({
+  await Friends.find({
     $or: [{ user1: req.params.userid }, { user2: req.params.userid }],
   })
     .find({ status: true })
     .then((chatfriends) =>
       chatfriends.forEach((chatfriend) => {
-        let friendsMsgs = Message.find({
+        console.log(chatfriend);
+        Message.find({
           $or: [
-            { senderID: chatfriend.user1 },
-            { receiverID: chatfriend.user2 },
+            { senderID: chatfriend.user1, recieverID: chatfriend.user2 },
+            { senderID: chatfriend.user2, recieverID: chatfriend.user1 },
           ],
-          $or: [
-            { senderID: chatfriend.user2 },
-            { receiverID: chatfriend.user1 },
-          ],
-        }).sort({ sendTime: -1 });
-        if (friendsMsgs !== null || friendsMsgs !== []) {
-          const recentMsg = friendsMsgs.findOne();
-          const chatFriendID =
-            recentMsg.senderID === req.params.userid
-              ? recentMsg.receiverID
-              : recentMsg.senderID;
-          chatFriends.push({
-            friendId: chatFriendID,
-            time: recentMsg.sendTime,
-          });
-          res.json(chatFriends);
-        }
+        })
+          .sort({ sendTime: -1 })
+          .then((friendsMsgs) => {
+            // console.log(friendsMsgs);
+            if (friendsMsgs !== null || friendsMsgs !== []) {
+              const recentMsg = friendsMsgs[0];
+              console.log(recentMsg);
+              const chatFriendID =
+                recentMsg.senderID === req.params.userid
+                  ? recentMsg.receiverID
+                  : recentMsg.senderID;
+              chatFriends.push({
+                friendId: chatFriendID,
+                time: recentMsg.sendTime,
+              });
+            }
+            res.json(chatFriends);
+          })
+          .catch((err) => res.status(400).json("Error: " + err));
+        // console.log(friendsMsgs);
       })
     )
     .catch((err) => res.status(400).json("Error: " + err));
