@@ -7,7 +7,7 @@ const {
   deleteMessage,
   updateMessage,
 } = require("../controllers/messageController");
-
+router.get("/:userid", catchErrors(getMessagesUser)); //aik user k saare messages
 router.get("/", auth, catchErrors(getAllMessages));
 router.post("/add", auth, catchErrors(addMessage));
 router.delete("/:id", auth, catchErrors(deleteMessage));
