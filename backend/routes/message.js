@@ -3,12 +3,14 @@ const auth = require("../middlewares/auth");
 const { catchErrors } = require("../handlers/errorHandlers");
 const {
   getAllMessages,
+  getMessagesUser,
+  getChatUser,
   addMessage,
   deleteMessage,
   updateMessage,
 } = require("../controllers/messageController");
 router.get("/:userid", catchErrors(getMessagesUser));
-router.get("/:userid", catchErrors(getChatUser)); //aik user k saare messages//aik user k saare messages
+router.get("/chat/:userid", catchErrors(getChatUser)); //aik user k saare messages//aik user k saare messages
 router.get("/", auth, catchErrors(getAllMessages));
 router.post("/add", auth, catchErrors(addMessage));
 router.delete("/:id", auth, catchErrors(deleteMessage));

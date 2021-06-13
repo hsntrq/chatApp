@@ -17,7 +17,7 @@ exports.getConversationFriends = async (req, res) => {
     .find({ status: true })
     .then(
       chatfriends.forEach((chatfriend) => {
-        let friendsMsgs = await Message.find({
+        let friendsMsgs = Message.find({
           $or: [
             { senderID: chatfriend.user1 },
             { receiverID: chatfriend.user2 },

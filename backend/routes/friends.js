@@ -8,6 +8,7 @@ const {
   sendRequest,
   acceptRequest,
   deleteFriend,
+  getConversationFriends,
 } = require("../controllers/friendsController");
 router.get("/conversations/:userid", auth, catchErrors(getConversationFriends));
 router.get("/:userid", auth, catchErrors(getFriends));
