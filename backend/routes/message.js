@@ -11,7 +11,7 @@ const {
 } = require("../controllers/messageController");
 router.get("/:userid", catchErrors(getMessagesUser));
 router.get("/chat/:userid", catchErrors(getChatUser)); //aik user k saare messages//aik user k saare messages
-router.get("/", auth, catchErrors(getAllMessages));
+router.get("/", catchErrors(getAllMessages));
 router.post("/add", auth, catchErrors(addMessage));
 router.delete("/:id", auth, catchErrors(deleteMessage));
 router.put("/edit/:id", auth, catchErrors(updateMessage));
