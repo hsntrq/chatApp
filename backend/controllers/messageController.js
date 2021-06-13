@@ -1,5 +1,5 @@
 let Message = require("../models/message.model");
-let User = require("../models/user.model");
+// let User = require("../models/user.model");
 exports.getAllMessages = async (req, res) => {
   const messages = await Message.find();
   if (!messages) throw "no messages found";
@@ -9,6 +9,15 @@ exports.getMessagesUser = async (req, res) => {
   await Message.find({
     $or: [{ senderID: req.params.userid }, { receiverID: req.params.userid }],
   })
+    .then((messages) => res.status(200).json(messages))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+exports.getChatUser = async (req, res) => {
+  await Message.find({
+    $or: [{ senderID: req.params.userid }, { receiverID: req.params.userid }],
+    $or: [{ senderID: req.params.friendId }, { receiverID: req.body.friendId }],
+  })
+    .sort({ sendTime: -1 })
     .then((messages) => res.status(200).json(messages))
     .catch((err) => res.status(400).json("Error: " + err));
 };
