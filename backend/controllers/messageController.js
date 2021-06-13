@@ -14,8 +14,10 @@ exports.getMessagesUser = async (req, res) => {
 };
 exports.getChatUser = async (req, res) => {
   await Message.find({
-    $or: [{ senderID: req.params.userid }, { receiverID: req.params.userid }],
-    $or: [{ senderID: req.params.friendId }, { receiverID: req.body.friendId }],
+    $or: [
+      { senderID: req.params.userid, recieverID: req.body.friendId },
+      { senderID: req.body.friendId, recieverID: req.params.userid },
+    ],
   })
     .sort({ sendTime: -1 })
     .then((messages) => res.status(200).json(messages))
