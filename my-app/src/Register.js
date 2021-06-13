@@ -9,9 +9,13 @@ const Register = (props) => {
   const idRef = React.createRef();
   const passwordRef = React.createRef();
   const genderRef = React.createRef();
+  const passwordAgain = React.createRef();
 
   const registerUser = (e) => {
     e.preventDefault();
+    if (passwordAgain.current.value !== passwordRef.current.value) {
+      passwordAgain.current.setCustomValidity("Passwords don't match!");
+    } 
     const firstName = firstnameRef.current.value;
     const lastName = lastnameRef.current.value;
     const email = emailRef.current.value;
@@ -107,6 +111,16 @@ const Register = (props) => {
                       name="password"
                       placeholder="Password"
                       ref={passwordRef}
+                      required
+                    />
+                  </div>
+                  <div className="form-group mb-3">
+                    <input
+                      className="form-control"
+                      type="password"
+                      name="password"
+                      placeholder="Confirm Password"
+                      ref={passwordAgain}
                       required
                     />
                   </div>

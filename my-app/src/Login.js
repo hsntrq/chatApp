@@ -4,7 +4,7 @@ import { loginCall } from "./apicalls";
 import makeToast from "./Toaster";
 import { AuthContext } from "./components/AuthContext";
 
-export default function Login() {
+export default function Login(props) {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const { isFetching, dispatch } = useContext(AuthContext);
@@ -16,7 +16,8 @@ export default function Login() {
         userName: "",
         password: passwordRef.current.value,
       },
-      dispatch
+      dispatch,
+      props
     );
   };
   
