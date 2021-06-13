@@ -1,4 +1,5 @@
 let Friends = require("../models/friends.model");
+let Message = require("../models/message.model");
 
 exports.getFriends = async (req, res) => {
   await Friends.find({
@@ -6,6 +7,40 @@ exports.getFriends = async (req, res) => {
   })
     .find({ status: true })
     .then((connection) => res.json(connection))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+exports.getConversationFriends = async (req, res) => {
+  const chatFriends = [];
+  await Friends.find({
+    $or: [{ user1: req.params.userid }, { user2: req.params.userid }],
+  })
+    .find({ status: true })
+    .then(
+      chatfriends.forEach((chatfriend) => {
+        let friendsMsgs = await Message.find({
+          $or: [
+            { senderID: chatfriend.user1 },
+            { receiverID: chatfriend.user2 },
+          ],
+          $or: [
+            { senderID: chatfriend.user2 },
+            { receiverID: chatfriend.user1 },
+          ],
+        }).sort({ sendTime: -1 });
+        if (friendsMsgs !== null || friendsMsgs !== []) {
+          const recentMsg = friendsMsgs.findOne();
+          const chatFriendID =
+            recentMsg.senderID === req.params.userid
+              ? recentMsg.receiverID
+              : recentMsg.senderID;
+          chatFriends.push({
+            friendId: chatFriendID,
+            time: recentMsg.sendTime,
+          });
+          res.json(chatFriends);
+        }
+      })
+    )
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
